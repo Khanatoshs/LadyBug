@@ -32,8 +32,8 @@
 //Max number of enemies
 #define NUM_ENEMIES 5
 //Enemy Initial Position
-#define E_INI_POS_X 40
-#define E_INI_POS_Y 40
+#define E_INI_POS_X 10
+#define E_INI_POS_Y 10
 
 //----------------------------------------------------------------
 
@@ -59,13 +59,13 @@ int Console_Width = Console::WindowWidth;
 int Console_Height = Console::WindowHeight;
 
 //Position of an element
-typedef struct {
+typedef struct Position {
 	int x=0;
 	int y=0;
-}Position;
+};
 
 //Player Data
-typedef struct {
+typedef struct Player{
 	Position pos;
 	int direction=UP;
 	int lives=LIVES;
@@ -74,21 +74,23 @@ typedef struct {
 	int movment_diff=MOV_DIFF;
 	char**sprite;
 	
-}Player;
+};
 
 //Enemy Data
-typedef struct {
+typedef struct Enemy{
 	Position pos;
-	int speed;
-	bool dead=false;
-}Enemy;
+	int direction=UP;
+	bool dead=true;
+	int movment_diff = MOV_DIFF;
+	char**sprite;
+};
 
 //Item Data
-typedef struct {
+typedef struct Item {
 	Position pos;
 	int color;
 	int value;
-}Item;
+};
 
 //------------------------------------------------------------
 

@@ -29,7 +29,7 @@ bool Move_Player(Player &p) {
 }
 
 //change char based on direction
-void Change_Sprite(Player &p) {
+void Change_Sprite_Player(Player &p) {
 	switch (p.direction) {
 	case UP:
 		p.sprite[0][0] = char(191); p.sprite[0][1] = char(218);
@@ -53,7 +53,8 @@ void Change_Sprite(Player &p) {
 //Draw Player
 void Draw_Player(Player &p) {
 	
-	Change_Sprite(p);
+	Change_Sprite_Player(p);
+	Change_Color(RED);
 	for (int i = 0; i < 2; i++) {
 		Move_Cursor(p.pos.x, p.pos.y+i);
 		for (int j = 0; j < 2; j++) {

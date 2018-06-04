@@ -1,0 +1,6 @@
+﻿  main.cpp
+l:\leonardo\work\clases\pruebas\new_ladybug\new_ladybug\Controller.h(10): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\conio.h(452): note: see declaration of 'getch'
+  main.obj : /DEBUG:FASTLINK is not supported when managed code is present; restarting link with /DEBUG:FULL
+  NEW_LADYBUG.vcxproj -> L:\Leonardo\work\clases\Pruebas\NEW_LADYBUG\Debug\NEW_LADYBUG.exe
+  NEW_LADYBUG.vcxproj -> L:\Leonardo\work\clases\Pruebas\NEW_LADYBUG\Debug\NEW_LADYBUG.pdb (Partial PDB)

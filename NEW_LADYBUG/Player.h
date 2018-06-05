@@ -2,7 +2,7 @@
 
 
 
-bool Move_Player(Player &p) {
+bool Move_Player(Player &p,int**map) {
 	int iniX = p.pos.x;
 	int iniY = p.pos.y;
 	switch (p.direction) {
@@ -20,11 +20,12 @@ bool Move_Player(Player &p) {
 		break;
 	default:return false;
 	}
-	if (!Check_Limits(p.pos)) {
+	if (!Check_Limits(p.pos,map)) {
 		p.pos.x = iniX;
 		p.pos.y = iniY;
 		return false;
 	}
+	Hide_Trail(iniX, iniY);
 	return true;
 }
 

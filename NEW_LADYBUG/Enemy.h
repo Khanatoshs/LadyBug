@@ -1,7 +1,10 @@
 #include"GlobalData.h"
 
-//Ver hacia donde se movera el enemigo
-void Move_Enemy(Player p,Enemy &e) {
+
+
+
+//See where it will move next
+void Move_Enemy(Player p,Enemy &e,int **map) {
 	int iniX = e.pos.x;
 	int iniY = e.pos.y;
 	if (p.pos.y != e.pos.y||p.pos.x != e.pos.x) {
@@ -21,19 +24,20 @@ void Move_Enemy(Player p,Enemy &e) {
 			e.pos.x -= e.movment_diff;
 			e.direction = LEFT;
 		}
-		if (!Check_Limits(e.pos)) {
+		if (!Check_Limits(e.pos,map)) {
 			e.pos.x = iniX;
 			e.pos.y = iniY;
 			return;
 		}
+		Hide_Trail(iniX, iniY);
 	}
 
 }
 
-void Move_All_Enemies(Player p,Enemy*arrE) {
+void Move_All_Enemies(Player p,Enemy*arrE,int**map) {
 	for (int i = 0; i < NUM_ENEMIES; i++) {
 		if (!arrE[i].dead) {
-			Move_Enemy(p, arrE[i]);
+			Move_Enemy(p, arrE[i],map);
 		}
 		
 	}
@@ -60,12 +64,15 @@ void Change_Sprite_Enemy(Enemy &e) {
 	}
 }
 
+
 void Draw_Enemies(Enemy *e) {
 	for (int i = 0; i < NUM_ENEMIES; i++) {
 		if (e[i].dead) {
 			continue;
 		}
+		
 		Change_Sprite_Enemy(e[i]);
+		Change_Color(WHITE);
 		for (int j = 0; j < 2; j++) {
 			Move_Cursor(e[i].pos.x, e[i].pos.y+j);
 			cout << e[i].sprite[j][0] << e[i].sprite[j][1];
@@ -75,11 +82,19 @@ void Draw_Enemies(Enemy *e) {
 }
 
 
-void Spawn_Enemy(Enemy*e) {
-	for (int i = 0; i < NUM_ENEMIES; i++) {
-		if (e[i].dead) {
+void Spawn_Enemy(Enemy*e,int**map) {
+	int size = 0;
+	Position*p = Search_Map(-1, map, size);
+	for (int j = 0; j < size; j++) {
+		for (int i = 0; i < NUM_ENEMIES; i++) {
+			if (!e[i].dead) {
+				continue;
+			}
 			e[i].dead = false;
-			return;
+			e[i].pos.x = p[j].x;
+			e[i].pos.y = p[j].y;
+			break;
 		}
 	}
+	
 }

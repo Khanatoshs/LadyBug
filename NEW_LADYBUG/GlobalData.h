@@ -1,4 +1,5 @@
 #pragma once
+
 #include<iostream>
 #include<conio.h>
 #include<Windows.h>
@@ -18,6 +19,7 @@
 #define BLUE 3
 #define RED 4
 #define YELLOW 5
+#define WHITE 6
 
 //Direction of Movement
 #define UP 8
@@ -25,6 +27,9 @@
 #define RIGHT 6
 #define DOWN 2
 
+//Map
+#define MAP_COL 80
+#define MAP_ROW 47
 //---------------------------------------------------------------
 
 //ENEMIES
@@ -40,8 +45,8 @@
 //Player
 
 //Player Initial position
-#define P_INI_POS_X 20
-#define P_INI_POS_Y 20
+#define P_INI_POS_X 38
+#define P_INI_POS_Y 23
 
 //Player Movement differential
 #define MOV_DIFF 2
@@ -125,6 +130,9 @@ void Change_Color(int color) {
 	case YELLOW:
 		Console::ForegroundColor = ConsoleColor::Yellow;
 		break;
+	case WHITE:
+		Console::ForegroundColor = ConsoleColor::White;
+		break;
 	default:
 		Console::ForegroundColor = ConsoleColor::Black;
 		break;
@@ -143,12 +151,52 @@ int KeyToDirection(char key) {
 }
 
 //Checks if anything goes beyond limits
-bool Check_Limits(Position p) {
+bool Check_Limits(Position p,int**map) {
 	if (p.x <0 || p.x+1>Console_Width) {
 		return false;
 	}
 	if (p.y <0 || p.y +1>Console_Height) {
 		return false;
 	}
+	if (map[p.y][p.x] == 1 || map[p.y][p.x] == 2 || map[p.y][p.x] == 3) {
+		return false;
+	}
 	return true;
+}
+
+
+void Hide_Trail(int x, int y) {
+	for (int i = 0; i < 2; i++)
+	{
+		Move_Cursor(x, y + i);
+		cout << " " << " ";
+	}
+}
+
+//Searches map for number code num of desired element returns a collection of Struct Position ande the size of array in variable size
+Position* Search_Map(int num,int**map,int &size) {
+	int cont = 0;
+	for (int i = 1; i < MAP_ROW; i+=2) {
+		for (int j = 0; j < MAP_COL; j+=2){
+			if (map[i][j] == num) {
+				cont++;
+			}
+		}
+	}
+	size = cont;
+	if (cont == 0) {
+		return nullptr;
+	}
+	Position* arrPos = new Position[cont];
+	int n = 0;
+	for (int i = 1; i < MAP_ROW; i += 2) {
+		for (int j = 0; j < MAP_COL; j += 2) {
+			if (map[i][j] == num) {
+				arrPos[n].x = j;
+				arrPos[n].y = i;
+				n++;
+			}
+		}
+	}
+	return arrPos;
 }

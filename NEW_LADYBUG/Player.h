@@ -1,6 +1,53 @@
 #include"GlobalData.h"
 
-
+bool MoveTurners(Player p,int**map) {
+	if(map[p.pos.y][p.pos.x]==2){
+		int iniI, iniJ;
+		bool isGood = false;
+		if (map[p.pos.y - 2][p.pos.x] == 3&&(p.direction==LEFT||p.direction==RIGHT)) {
+			iniI = p.pos.y - 4;
+			iniJ = p.pos.x - 2;
+			isGood = true;
+		}
+		else if (map[p.pos.y + 2][p.pos.x] == 3 && (p.direction == LEFT || p.direction == RIGHT)) {
+			iniI = p.pos.y;
+			iniJ = p.pos.x-2;
+			isGood = true;
+		}
+		else if (map[p.pos.y][p.pos.x+2] == 3 && (p.direction == UP || p.direction == DOWN)) {
+			iniI = p.pos.y-2;
+			iniJ = p.pos.x;
+			isGood = true;
+		}
+		else if (map[p.pos.y][p.pos.x-2] == 3 && (p.direction == UP || p.direction == DOWN)) {
+			iniI = p.pos.y-2;
+			iniJ = p.pos.x-4;
+			isGood = true;
+		}
+		if (!isGood) {
+			return false;
+		}
+		//Transpose that part of the map
+		int aux[6][6];
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 6; j++) {
+				aux[i][j] = map[iniI+i][iniJ+j];
+			}
+		}
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 6; j++) {
+				map[iniI + i][iniJ + j]=aux[j][i];
+			}
+		}
+		for (int i = 0; i < 6; i+=2) {
+			for (int j = 0; j < 6; j+=2) {
+				DrawSquare(map, iniJ+j, iniI+i);
+			}
+		}
+		return true;
+	}
+	return true;
+}
 
 bool Move_Player(Player &p,int**map) {
 	int iniX = p.pos.x;
@@ -20,11 +67,12 @@ bool Move_Player(Player &p,int**map) {
 		break;
 	default:return false;
 	}
-	if (!Check_Limits(p.pos,map)) {
+	if (!MoveTurners(p, map)||!Check_LimitsPlayer(p.pos,map)) {
 		p.pos.x = iniX;
 		p.pos.y = iniY;
 		return false;
 	}
+	
 	Hide_Trail(iniX, iniY);
 	return true;
 }
@@ -61,5 +109,16 @@ void Draw_Player(Player &p) {
 		for (int j = 0; j < 2; j++) {
 			cout << p.sprite[i][j];
 		}
+	}
+}
+
+void GetItem(int**map,Player &p) {
+	if(map[p.pos.y][p.pos.x]==4){
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				map[p.pos.y+i][p.pos.x+j] = 0;
+			}
+		}
+		p.points += 20;
 	}
 }

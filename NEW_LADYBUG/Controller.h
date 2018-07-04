@@ -5,20 +5,18 @@
 //Controller Function
 void controller(Player &p, Enemy*ArrEnem,int**map) {
 	Draw_Map(map);
+	InitSpawnTimer();
 	while (true) {
+		UpdateTimers(ArrEnem);
 		if (_kbhit()) {
 			char key = getch();
 			if (key == char(27)) {
 				break;
 			}
-			if (key == 'e') {
-				Spawn_Enemy(ArrEnem,map);
-				continue;
-			}
 			int direction = KeyToDirection(key);
 			if (direction) {
 				p.direction = direction;
-				Move_All_Enemies(p, ArrEnem,map);
+				
 				if (!Move_Player(p,map)) {
 					continue;
 				}
@@ -27,9 +25,12 @@ void controller(Player &p, Enemy*ArrEnem,int**map) {
 				continue;
 			}
 		}
-
+		GetItem(map, p);
+		Spawn_Enemy(ArrEnem, map);
+		Move_All_Enemies(p, ArrEnem, map);
 		Draw_Enemies(ArrEnem);
 		Draw_Player(p);
-		Sleep(15);
+		DrawPoints(p);
+		//Sleep(15);
 	}
 }

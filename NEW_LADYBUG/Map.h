@@ -14,27 +14,15 @@ void Read_Map(int**map) {
 	}
 	file.close();
 }
-
 void Draw_Map(int**map) {
-	for (int i = 0; i < MAP_ROW; i++) {
-		Move_Cursor(0, i);
-		for (int j = 0; j < MAP_COL; j++) {
-			
-			if (map[i][j] == 1) {
-				Change_Color(BLUE);
-				cout << char(178);
-			}
-			else if(map[i][j] == 2){
-				Change_Color(GREEN);
-				cout << char(178);
-			}
-			else if (map[i][j] == 3) {
-				Change_Color(YELLOW);
-				cout << char(178);
-			}
-			else {
-				cout << " ";
-			}
+	for (int i = 0; i < MAP_ROW; i+=2) {
+		for (int j = 0; j < MAP_COL; j+=2) {
+			DrawSquare(map, j, i);
 		}
 	}
+}
+
+void DrawPoints(Player p) {
+	Move_Cursor(80,4);
+	cout << "Points: "<<p.points;
 }

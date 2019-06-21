@@ -10,7 +10,6 @@ int main() {
 	InitEnemies(enemyArray);
 	InitPlayer(p);
 	InitMap(map);
-	//Comentario nuevo
 	Read_Map(map);
 	Maximize_Console();
 	Cursor_visible();
